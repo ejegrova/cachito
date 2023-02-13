@@ -12,10 +12,12 @@ from git import Repo
 from . import utils
 
 
-@pytest.mark.parametrize("env_package", ["private_repo_https", "private_repo_ssh"])
+@pytest.mark.parametrize(
+    "env_package", ["private_repo_https", "private_repo_ssh", "private_repo_gomod"]
+)
 def test_private_repos(env_package: str, test_env: dict[str, Any], tmp_path: Path) -> None:
     """
-    Validate a cachito request with no package managers to a private repo.
+    Validate a cachito request to a private repo.
 
     Process:
     Create new commit at "cachito-no-package-manager-private" repo
@@ -26,12 +28,12 @@ def test_private_repos(env_package: str, test_env: dict[str, Any], tmp_path: Pat
 
     Checks:
     * Check that the request completes successfully
-    * Check that no packages are identified in response
-    * Check that no dependencies are identified in response
+    * Check that expected packages are identified in response
+    * Check that expected dependencies are identified in response
     * Check that the source tarball includes the application source code. Verify the expected files
       by checking both the ref and diff because we don't have a clone of the private source repo.
-    * Check that the source tarball includes empty deps directory
-    * Check that the content manifest is successfully generated and empty
+    * Check that the source tarball includes expected deps directory
+    * Check that the content manifest is successfully generated and contains correct content
     """
     test_data = utils.load_test_data("private_repo_packages.yaml")
     private_repo_test_envs = test_data["private_repo_test_envs"]
@@ -47,7 +49,10 @@ def test_private_repos(env_package: str, test_env: dict[str, Any], tmp_path: Pat
             )
         )
 
-    repo = Repo.clone_from(test_data["private_repo_ssh"]["repo"], tmp_path)
+    if env_package == "private_repo_https":
+        repo = Repo.clone_from(test_data["private_repo_ssh"]["repo"], tmp_path)
+    else:
+        repo = Repo.clone_from(env_data["repo"], tmp_path)
 
     repo.config_writer().set_value("user", "name", test_env["git_user"]).release()
     repo.config_writer().set_value("user", "email", test_env["git_email"]).release()
@@ -72,25 +77,26 @@ def test_private_repos(env_package: str, test_env: dict[str, Any], tmp_path: Pat
         payload = {
             "repo": env_data["repo"],
             "ref": ref,
-            "pkg_managers": [],
+            "pkg_managers": env_data.get("pkg_managers", []),
             "flags": ["include-git-dir"],
         }
-
         initial_response = client.create_new_request(payload=payload)
         completed_response = client.wait_for_complete_request(initial_response)
 
         utils.assert_properly_completed_response(completed_response)
-        assert completed_response.data["packages"] == []
-        assert completed_response.data["dependencies"] == []
+        response_expectations = env_data.get("response_expectations", {})
+        utils.assert_elements_from_response(completed_response.data, response_expectations)
 
         client.download_and_extract_archive(completed_response.id, tmp_path)
         source_path = tmp_path / f"download_{str(completed_response.id)}"
         downloaded_repo = Repo(source_path / "app")
         assert downloaded_repo.head.commit.hexsha == ref
         assert not downloaded_repo.git.diff()
-        assert not os.listdir(source_path / "deps")
+        if not env_package == "private_repo_gomod":
+            assert not os.listdir(source_path / "deps")
 
-        utils.assert_content_manifest(client, completed_response.id, [])
+        image_contents = utils.parse_image_contents(env_data.get("content_manifest", []))
+        utils.assert_content_manifest(client, completed_response.id, image_contents)
 
     finally:
         repo.git.push("--delete", "origin", branch_name)
