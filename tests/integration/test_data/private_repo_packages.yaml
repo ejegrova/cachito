@@ -25,6 +25,10 @@ private_repo_gomod:
         replaces: null
         type: go-package
         version: null
+      - name: github.com/cachito-testing/cachito-gomod-private
+        replaces: null
+        type: go-package
+        version: v0.0.0-20230320124445-3f12ed66d286
       - name: golang.org/x/text/internal/tag
         replaces: null
         type: go-package
@@ -197,6 +201,10 @@ private_repo_gomod:
         replaces: null
         type: go-package
         version: null
+      - name: github.com/cachito-testing/cachito-gomod-private
+        replaces: null
+        type: gomod
+        version: v0.0.0-20230320124445-3f12ed66d286
       - name: golang.org/x/text
         replaces: null
         type: gomod
@@ -223,6 +231,10 @@ private_repo_gomod:
             replaces: null
             type: go-package
             version: null
+          - name: github.com/cachito-testing/cachito-gomod-private
+            replaces: null
+            type: go-package
+            version: v0.0.0-20230320124445-3f12ed66d286
           - name: golang.org/x/text/internal/tag
             replaces: null
             type: go-package
@@ -397,8 +409,12 @@ private_repo_gomod:
             version: null
         name: github.com/cachito-testing/cachito-gomod-with-deps-private
         type: go-package
-        version: v0.0.0-20230214150328-0fc5a4360594
+        version: "MAIN_VERSION"
       - dependencies:
+          - name: github.com/cachito-testing/cachito-gomod-private
+            replaces: null
+            type: gomod
+            version: v0.0.0-20230320124445-3f12ed66d286
           - name: golang.org/x/text
             replaces: null
             type: gomod
@@ -413,60 +429,60 @@ private_repo_gomod:
             version: v1.3.0
         name: github.com/cachito-testing/cachito-gomod-with-deps-private
         type: gomod
-        version: v0.0.0-20230214150328-0fc5a4360594
+        version: "MAIN_VERSION"
   expected_files:
-    app: https://github.com/cachito-testing/cachito-gomod-with-deps-private/tarball/0fc5a4360594e5a2b34c6c56e06f810d4ca1d1dc
+    app: https://github.com/cachito-testing/cachito-gomod-with-deps-private/tarball/MAIN_REPO_COMMIT
     deps/gomod/pkg/mod/cache/download/rsc.io/quote/@v/v1.5.2.zip: https://github.com/cachito-testing/test_files/raw/master/test_gomod_with_deps_quote.tar.gz
   content_manifest:
-    - purl: "pkg:golang/github.com%2Fcachito-testing%2Fcachito-gomod-with-deps-private@v0.0.0-20230214150328-0fc5a4360594"
-      dep_purls:
-        - "pkg:golang/bytes"
-        - "pkg:golang/errors"
-        - "pkg:golang/fmt"
-        - "pkg:golang/golang.org%2Fx%2Ftext%2Finternal%2Ftag@v0.0.0-20170915032832-14c0d48ead0c"
-        - "pkg:golang/golang.org%2Fx%2Ftext%2Flanguage@v0.0.0-20170915032832-14c0d48ead0c"
-        - "pkg:golang/internal%2Fabi"
-        - "pkg:golang/internal%2Fbytealg"
-        - "pkg:golang/internal%2Fcpu"
-        - "pkg:golang/internal%2Ffmtsort"
-        - "pkg:golang/internal%2Fgoarch"
-        - "pkg:golang/internal%2Fgoexperiment"
-        - "pkg:golang/internal%2Fgoos"
-        - "pkg:golang/internal%2Fitoa"
-        - "pkg:golang/internal%2Foserror"
-        - "pkg:golang/internal%2Fpoll"
-        - "pkg:golang/internal%2Frace"
-        - "pkg:golang/internal%2Freflectlite"
-        - "pkg:golang/internal%2Fsafefilepath"
-        - "pkg:golang/internal%2Fsyscall%2Fexecenv"
-        - "pkg:golang/internal%2Fsyscall%2Funix"
-        - "pkg:golang/internal%2Ftestlog"
-        - "pkg:golang/internal%2Funsafeheader"
-        - "pkg:golang/io"
-        - "pkg:golang/io%2Ffs"
-        - "pkg:golang/math"
-        - "pkg:golang/math%2Fbits"
-        - "pkg:golang/os"
-        - "pkg:golang/path"
-        - "pkg:golang/reflect"
-        - "pkg:golang/rsc.io%2Fquote@v1.5.2"
-        - "pkg:golang/rsc.io%2Fsampler@v1.3.0"
-        - "pkg:golang/runtime"
-        - "pkg:golang/runtime%2Finternal%2Fatomic"
-        - "pkg:golang/runtime%2Finternal%2Fmath"
-        - "pkg:golang/runtime%2Finternal%2Fsys"
-        - "pkg:golang/runtime%2Finternal%2Fsyscall"
-        - "pkg:golang/sort"
-        - "pkg:golang/strconv"
-        - "pkg:golang/strings"
-        - "pkg:golang/sync"
-        - "pkg:golang/sync%2Fatomic"
-        - "pkg:golang/syscall"
-        - "pkg:golang/time"
-        - "pkg:golang/unicode"
-        - "pkg:golang/unicode%2Futf8"
-        - "pkg:golang/unsafe"
-      source_purls:
-        - "pkg:golang/golang.org%2Fx%2Ftext@v0.0.0-20170915032832-14c0d48ead0c"
-        - "pkg:golang/rsc.io%2Fquote@v1.5.2"
-        - "pkg:golang/rsc.io%2Fsampler@v1.3.0"
+    purl: "pkg:golang/github.com%2Fcachito-testing%2Fcachito-gomod-with-deps-private@MAIN_REPO_COMMIT"
+    dep_purls:
+      - "pkg:golang/bytes"
+      - "pkg:golang/errors"
+      - "pkg:golang/fmt"
+      - "pkg:golang/golang.org%2Fx%2Ftext%2Finternal%2Ftag@v0.0.0-20170915032832-14c0d48ead0c"
+      - "pkg:golang/golang.org%2Fx%2Ftext%2Flanguage@v0.0.0-20170915032832-14c0d48ead0c"
+      - "pkg:golang/internal%2Fabi"
+      - "pkg:golang/internal%2Fbytealg"
+      - "pkg:golang/internal%2Fcpu"
+      - "pkg:golang/internal%2Ffmtsort"
+      - "pkg:golang/internal%2Fgoarch"
+      - "pkg:golang/internal%2Fgoexperiment"
+      - "pkg:golang/internal%2Fgoos"
+      - "pkg:golang/internal%2Fitoa"
+      - "pkg:golang/internal%2Foserror"
+      - "pkg:golang/internal%2Fpoll"
+      - "pkg:golang/internal%2Frace"
+      - "pkg:golang/internal%2Freflectlite"
+      - "pkg:golang/internal%2Fsafefilepath"
+      - "pkg:golang/internal%2Fsyscall%2Fexecenv"
+      - "pkg:golang/internal%2Fsyscall%2Funix"
+      - "pkg:golang/internal%2Ftestlog"
+      - "pkg:golang/internal%2Funsafeheader"
+      - "pkg:golang/io"
+      - "pkg:golang/io%2Ffs"
+      - "pkg:golang/math"
+      - "pkg:golang/math%2Fbits"
+      - "pkg:golang/os"
+      - "pkg:golang/path"
+      - "pkg:golang/reflect"
+      - "pkg:golang/rsc.io%2Fquote@v1.5.2"
+      - "pkg:golang/rsc.io%2Fsampler@v1.3.0"
+      - "pkg:golang/runtime"
+      - "pkg:golang/runtime%2Finternal%2Fatomic"
+      - "pkg:golang/runtime%2Finternal%2Fmath"
+      - "pkg:golang/runtime%2Finternal%2Fsys"
+      - "pkg:golang/runtime%2Finternal%2Fsyscall"
+      - "pkg:golang/sort"
+      - "pkg:golang/strconv"
+      - "pkg:golang/strings"
+      - "pkg:golang/sync"
+      - "pkg:golang/sync%2Fatomic"
+      - "pkg:golang/syscall"
+      - "pkg:golang/time"
+      - "pkg:golang/unicode"
+      - "pkg:golang/unicode%2Futf8"
+      - "pkg:golang/unsafe"
+    source_purls:
+      - "pkg:golang/golang.org%2Fx%2Ftext@v0.0.0-20170915032832-14c0d48ead0c"
+      - "pkg:golang/rsc.io%2Fquote@v1.5.2"
+      - "pkg:golang/rsc.io%2Fsampler@v1.3.0"

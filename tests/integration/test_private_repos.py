@@ -82,8 +82,13 @@ def test_private_repos(env_package: str, test_env: dict[str, Any], tmp_path: Pat
         }
         initial_response = client.create_new_request(payload=payload)
         completed_response = client.wait_for_complete_request(initial_response)
-
         utils.assert_properly_completed_response(completed_response)
+
+        if env_package == "private_repo_gomod":
+            main_version = utils.get_pseudo_version(repo, ref)
+            replace_rules = {"MAIN_REPO_COMMIT": ref, "MAIN_VERSION": main_version}
+            utils.update_expected_data(env_data, replace_rules)
+
         response_expectations = env_data.get("response_expectations", {})
         utils.assert_elements_from_response(completed_response.data, response_expectations)
 
